@@ -14,7 +14,7 @@ export class HomeOpenedService {
     logger: Logger;
     context: Context;
   }) {
-    logger.info('Home opened event received');
+    logger.info(`Home opened by user ${event.user}`);
     try {
       await client.views.publish({
         user_id: event.user,

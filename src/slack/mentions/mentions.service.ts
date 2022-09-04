@@ -14,7 +14,7 @@ export class MentionsService {
     logger: Logger;
     context: Context;
   }) {
-    logger.info('Mention event received');
+    logger.info(`Mention event received from user ${event.user}`);
     try {
       await client.chat.postMessage({
         channel: event.channel,
