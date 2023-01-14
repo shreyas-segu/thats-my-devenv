@@ -24,7 +24,7 @@ export class MentionsService {
       switch (command) {
         case Command.ADD_USER:
           await Promise.all([
-            this.addUser(event, context, logger),
+            this.addUsers(event, context, logger),
             client.chat.postMessage({
               channel: event.channel,
               text: `I've added the user!`,
@@ -32,6 +32,7 @@ export class MentionsService {
           ]);
           break;
         case Command.ADD_ENVIRONMENT:
+          await this.addEnvironments(event, context, logger);
           break;
         case Command.REMOVE_USER:
           break;
@@ -54,7 +55,7 @@ export class MentionsService {
     }
   }
 
-  async addUser(event: AppMentionEvent, context: Context, logger: Logger) {
+  async addUsers(event: AppMentionEvent, context: Context, logger: Logger) {
     const { botUserId } = context;
     const { text, channel } = event;
     const users = text.matchAll(/(?!<@)[A-Z0-9]+(?=>)/g);
@@ -88,6 +89,15 @@ export class MentionsService {
       },
     });
     return users;
+  }
+
+  async addEnvironments(
+    event: AppMentionEvent,
+    context: Context,
+    logger: Logger,
+  ) {
+    logger.info(`adding environments`);
+    console.log(JSON.stringify(event));
   }
 
   parseCommand(message: string): Command {
